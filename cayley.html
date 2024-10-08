@@ -5,10 +5,20 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <script src='cayley.js'></script>
 </head>
 <body>
-    hi
+    <form onsubmit="cayleyHandler(); return false;">
+        <label for="operation">Operation:</label>
+        <input type="text" id="operation" name="operation" value="x+y%2"><br><br>
+
+        <label for="elements">Elements (comma-separated):</label>
+        <input type="text" id="elements" name="elements" value="1,2,3"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+    <div id="cayley-table"></div>
 </body>
 </html>
