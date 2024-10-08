@@ -2,13 +2,41 @@ function cayleyHandler() {
     const elementsInput = document.getElementById('elements').value;
     const operation = document.getElementById('operation').value;
 
-    const elements = elementsInput.split(',').map(Number);
+    const elements = parseElements(elementsInput);
 
     const table = generateCayleyTable(elements, operation);
     const htmlTable = generateHTMLTable(table);
 
     // Insert the generated HTML table into the page
     document.getElementById('cayley-table').innerHTML = htmlTable;
+}
+
+function parseElements(elementsStr) {
+    const elements = new Set();
+    elementsStr.split(',').forEach(part => {
+        if (part.startsWith('!')) {
+            part = part.slice(1);
+            if (part.includes('-')) {
+                const [start, end] = part.split('-').map(Number);
+                for (let i = start; i <= end; i++) {
+                    elements.delete(i);
+                }
+            } else {
+                elements.delete(Number(part));
+            }
+        } else {
+
+            if (part.includes('-')) {
+                const [start, end] = part.split('-').map(Number);
+                for (let i = start; i <= end; i++) {
+                    elements.add(i);
+                }
+            } else {
+                elements.add(Number(part));
+            }
+        }
+    });
+    return Array.from(elements).sort((a, b) => a - b);
 }
 
 function generateCayleyTable(elements, operation) {
@@ -28,7 +56,7 @@ function generateCayleyTable(elements, operation) {
 }
 
 function generateHTMLTable(cayleyTable) {
-    let html = '<table border="1"><tr><th></th>';
+    let html = '<table><tr><th></th>';
     const elements = Object.keys(cayleyTable);
 
     // Header row
