@@ -7,8 +7,18 @@ function cayleyHandler() {
     const table = generateCayleyTable(elements, operation);
     const htmlTable = generateHTMLTable(table);
 
+
+
     // Insert the generated HTML table into the page
     document.getElementById('cayley-table').innerHTML = htmlTable;
+
+    // const row = 1;
+    // const col = 1;
+    // const rowResult = getRow(table, row);
+    // const colResult = getColumn(table, col);
+
+    // document.getElementById('therow').textContent = "row: " + Object.values(rowResult).join(', ');
+    // document.getElementById('thecol').textContent = "col: " + Object.values(colResult).join(', ');
 }
 
 function parseElements(elementsStr) {
@@ -78,3 +88,15 @@ function generateHTMLTable(cayleyTable) {
     return html;
 }
 
+// extract given row from table
+function getRow(table, row) {
+    return table[row];
+}
+
+// extract given column from table
+function getColumn(table, column) {
+    return Object.keys(table).reduce((acc, key) => {
+        acc[key] = table[key][column];
+        return acc;
+    }, {});
+}
