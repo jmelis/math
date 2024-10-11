@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/cayley" method="post" style="text-align: left;">
+    <label for="elements">Elements (comma-separated):</label>
+    <input type="text" id="elements" name="elements" value="{{ elements_arg }}" required style="display: block; margin-bottom: 10px;">
+    <label for="operation">Operation:</label>
+    <input type="text" id="operation" name="operation" value="{{ operation }}" required style="display: block; margin-bottom: 10px;">
+    <button type="submit">Submit</button>
+</form>
+
+{% if result %}
+    <table>
+        <tr>
+            <th></th>
+            {% for element in result.table.keys() %}
+                <th>{{ element }}</th>
+            {% endfor %}
+        </tr>
+        {% for row_element, row in result.table.items() %}
+            <tr>
+                <th>{{ row_element }}</th>
+                {% for col_element in result.table.keys() %}
+                    <td>{{ row[col_element] }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p>Group 1 closure: {{ result.g1_closure }}</p>
+    <p>Group 3 identity: {{ result.g3_identity }}</p>
+    <p>Group 4 inverses: {{ result.g4_inverses }}</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/g2_associative" method="post" style="text-align: left;">
+    <label for="elements">Expression (function of 'x' and 'y'):</label>
+    <input type="text" id="expr" name="expr" value="{{ expr }}" required style="display: block; margin-bottom: 10px;">
+    <button type="submit">Submit</button>
+</form>
+
+{% if result %}
+    <div style="margin-top: 20px;">
+        <p><strong>Expr1:</strong> {{ result.expr1 }}</p>
+        <p><strong>Expr2:</strong> {{ result.expr2 }}</p>
+        <p><strong>Expr1 - Expr2:</strong> {{ result.result }}</p>
+        <p><strong>Associative:</strong> {{ result.result == 0 }}</p>
+    </div>
+{% endif %}
+
+{% endblock %}

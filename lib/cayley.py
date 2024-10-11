@@ -1,9 +1,4 @@
-import sys
-
-from tabulate import tabulate
-
-
-def get_elements(elements_arg):
+def parse_elements_arg(elements_arg):
     elements = set()
     for chunk in elements_arg.split(","):
         if chunk.startswith("!"):
@@ -63,7 +58,6 @@ def g3_identity(table):
     return None
 
 def g4_inverses(table):
-    # assume first one for now
     identity = g3_identity(table)
 
     elements = list(table.keys())
@@ -71,37 +65,3 @@ def g4_inverses(table):
         if True not in [(table[i][j]==identity and table[j][i]==identity) for j in elements]:
             return False
     return True
-
-
-def print_table(table):
-    elements = list(table.keys())
-
-    # header
-    data = [[""] + elements]
-
-    for el in elements:
-        row = [el]
-        for el2 in elements:
-            row.append(table[el][el2])
-        data.append(row)
-
-    print(tabulate(data, headers="firstrow", tablefmt="grid"))
-
-# parse arguments
-if len(sys.argv) != 3:
-    print("Usage: python cayley.py <element_set> <operation>")
-    sys.exit(1)
-
-elements_arg = sys.argv[1]
-operation_arg = sys.argv[2]
-
-elements = get_elements(elements_arg)
-
-table = cayley_table(elements, operation_arg)
-print_table(table)
-
-identity = g3_identity(table)
-
-print("Group 1 closure:", g1_closure(table))
-print("Group 3 identity:", identity is not None, identity)
-print("Group 4 inverses:", g4_inverses(table))
