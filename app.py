@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 
-from lib import cayley, g2_associative
+from lib import cayley, g2_associativity
 
 app = Flask(__name__)
 
@@ -32,12 +32,12 @@ def cayley_handler_post():
         "cayley.html", title="Cayley", elements_arg=elements_arg, operation=operation, result=result
     )
 
-@app.route("/g2_associative", methods=["GET"])
-def g2_associative_handler_get():
-    return render_template("g2_associative.html", title="G2 Associative")
+@app.route("/g2_associativity", methods=["GET"])
+def g2_associativity_handler_get():
+    return render_template("g2_associativity.html", title="G2 Associativity")
 
-@app.route("/g2_associative", methods=["POST"])
-def g2_associative_handler_post():
+@app.route("/g2_associativity", methods=["POST"])
+def g2_associativity_handler_post():
     expr = request.form.get("expr")
-    result = g2_associative.g2_associative_check(expr)
-    return render_template("g2_associative.html", title="G2 Associative", expr=expr, result=result)
+    result = g2_associativity.g2_associativity_check(expr)
+    return render_template("g2_associativity.html", title="G2 Associativity", expr=expr, result=result)

@@ -65,3 +65,48 @@ def g4_inverses(table):
         if True not in [(table[i][j]==identity and table[j][i]==identity) for j in elements]:
             return False
     return True
+
+if __name__ == '__main__':
+    """
+    python3 lib/cayley.py '1-3,5' 'x*y % 7'
+    ╒════╤═════╤═════╤═════╤═════╕
+    │    │   1 │   2 │   3 │   5 │
+    ╞════╪═════╪═════╪═════╪═════╡
+    │  1 │   1 │   2 │   3 │   5 │
+    ├────┼─────┼─────┼─────┼─────┤
+    │  2 │   2 │   4 │   6 │   3 │
+    ├────┼─────┼─────┼─────┼─────┤
+    │  3 │   3 │   6 │   2 │   1 │
+    ├────┼─────┼─────┼─────┼─────┤
+    │  5 │   5 │   3 │   1 │   4 │
+    ╘════╧═════╧═════╧═════╧═════╛
+    G1 closure:   False
+    G3 identity:  1
+    G4 inverses:  False
+    """
+
+    import sys
+    import tabulate
+
+    if '--latex' in sys.argv:
+        sys.argv.remove('--latex')
+        tablefmt = "latex"
+    else:
+        tablefmt = "fancy_grid"
+
+    elements_arg = sys.argv[1]
+    operation = sys.argv[2]
+
+    elements = parse_elements_arg(elements_arg)
+    table = cayley_table(elements, operation)
+
+    # print table with tabulate
+    headers = [""] + elements
+    rows = []
+    for i in elements:
+        rows.append([i] + get_row(table, i))
+    print(tabulate.tabulate(rows, headers, tablefmt=tablefmt))
+
+    print("G1 closure:  ", g1_closure(table))
+    print("G3 identity: ", g3_identity(table))
+    print("G4 inverses: ", g4_inverses(table))
